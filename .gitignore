@@ -1,3 +1,7 @@
 .env
 *.pem
 node_modules/
+
+.hermes/
+__pycache__/
+.pytest_cache/
