@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ed">
+  <meta name="description" content="BigQuery.live turns saved Metabase SQL and BigQuery data into custom Python reports with models from OpenRouter.">
+  <title>BigQuery.live — AI analytics workbench</title>
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#main" aria-label="BigQuery.live home"><img src="mark.svg" alt="" width="30" height="30">bigquery<span>.live</span></a>
+      <nav aria-label="Main navigation"><a href="#studio">Workbench</a><a href="#workflow">Data flow</a><a href="#connect">Setup</a></nav>
+      <a class="nav-link" href="#studio">Open demo <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="wrap opening">
+      <div class="intro-title">
+        <div class="kicker"><span class="square" aria-hidden="true"></span> AI ANALYTICS WORKBENCH</div>
+        <h1>Custom reports.<br>Built on your data.</h1>
+      </div>
+      <div class="intro-body">
+        <p>Ask a business question. The agent finds the right <strong>Metabase query</strong>, reads your <strong>BigQuery</strong> data and assembles the answer in <strong>Python</strong>.</p>
+        <a class="underlink" href="#workflow">See the data flow <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <section class="wrap workbench" id="studio" aria-labelledby="workbench-title">
+      <div class="workbench-header">
+        <h2 id="workbench-title"><span class="workbench-mark" aria-hidden="true">+</span> Analytics workbench <span class="breadcrumb">/ Product analytics</span></h2>
+        <span class="sample-badge"><i></i> Sample data</span>
+      </div>
+      <div class="studio">
+        <aside class="studio-side">
+          <div class="side-caption">REPORT LIBRARY</div>
+          <div class="preset-list" aria-label="Report examples">
+            <button class="preset" type="button" data-preset="funnel" aria-pressed="true">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14l-5.5 6v4.5l-3 1.5v-6z"/></svg><span>Signup funnel</span><small>01</small>
+            </button>
+            <button class="preset" type="button" data-preset="revenue" aria-pressed="false">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 14l4-5 4 2 6-7m-4 0h4v4"/></svg><span>Revenue pulse</span><small>02</small>
+            </button>
+            <button class="preset" type="button" data-preset="retention" aria-pressed="false">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4h12v12H4zm0 6h12M10 4v12"/></svg><span>Cohort retention</span><small>03</small>
+            </button>
+          </div>
+          <form class="prompt-form" id="prompt-form">
+            <label class="side-caption" for="question">ASK A QUESTION</label>
+            <textarea id="question" rows="3" maxlength="240" aria-describedby="prompt-hint">Show signup funnel drop-off for the last 30 days.</textarea>
+            <div id="prompt-hint">Try “mobile signup funnel, last 7 days.”</div>
+            <button class="compile" type="submit">Run report <span aria-hidden="true">→</span></button>
+          </form>
+        </aside>
+
+        <div class="studio-main">
+          <div class="studio-toolbar">
+            <div class="studio-views" aria-label="Report views"><button type="button" data-view="report" aria-pressed="true">Report</button><button type="button" data-view="sql" aria-pressed="false">SQL</button><button type="button" data-view="python" aria-pressed="false">Python</button></div>
+            <button class="export" id="export" type="button">Download CSV <span aria-hidden="true">↓</span></button>
+          </div>
+          <div class="studio-output" id="studio-output"></div>
+          <div class="studio-status" id="studio-status" role="status"></div>
+        </div>
+
+        <aside class="studio-trace" aria-labelledby="trace-label">
+          <div class="side-caption" id="trace-label">REPORT LINEAGE</div>
+          <ol class="lineage">
+            <li><span class="lineage-node" aria-hidden="true">01</span><div><strong>BigQuery</strong><small id="lineage-table">product.signup_funnel_steps</small></div></li>
+            <li><span class="lineage-node" aria-hidden="true">02</span><div><strong>Metabase</strong><small id="lineage-question">Saved question #57</small></div></li>
+            <li><span class="lineage-node" aria-hidden="true">03</span><div><strong>Python</strong><small id="lineage-python">Step conversion rates</small></div></li>
+          </ol>
+          <div class="model-note"><div class="side-caption">MODEL ROUTER</div><strong>OpenRouter</strong><small>Choose a model for report planning.</small></div>
+        </aside>
+      </div>
+      <div class="workbench-footer"><span>INTERACTIVE DEMO</span><span>Three reports · Sample data runs in your browser</span></div>
+    </section>
+
+    <section class="wrap workflow section" id="workflow">
+      <header class="section-heading">
+        <div class="kicker"><span class="square" aria-hidden="true"></span> 01 / ARCHITECTURE</div>
+        <div><h2>Follow the data.</h2><p>BigQuery is the data source. Metabase gives agents a catalog of saved SQL. The BI layer turns returned rows into figures and explanations.</p></div>
+      </header>
+      <div class="flow">
+        <div class="flow-head"><span>STEP</span><span>COMPONENT</span><span>ROLE</span><span>EXAMPLE</span></div>
+        <ol>
+          <li><span class="flow-index">01</span><strong>BigQuery</strong><p>Receive app events, website activity and transactions from server-side exports.</p><code>product.events</code></li>
+          <li><span class="flow-index">02</span><strong>Metabase</strong><p>Keep approved SQL in parameterized saved questions the agent can reuse.</p><code>question / 57</code></li>
+          <li><span class="flow-index">03</span><strong>OpenRouter</strong><p>Route the question to your chosen model to select a query and plan the output.</p><code>question → report plan</code></li>
+          <li><span class="flow-index">04</span><strong>Python + BI</strong><p>Calculate derived metrics and render the right visualization for the result.</p><code>rows → report</code></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="setup" id="connect">
+      <div class="wrap section">
+        <header class="section-heading">
+          <div class="kicker"><span class="square" aria-hidden="true"></span> 02 / SETUP</div>
+          <div><h2>Connect your stack.</h2><p>Bring the dataset, saved SQL collection and model API key. Configure credentials on the server.</p></div>
+        </header>
+        <div class="connection-grid">
+          <ol class="connection-list">
+            <li><span>01</span><div><h3>Export to a BigQuery dataset</h3><p>Point website or app exports at your Google Cloud project. Give reporting its own read identity.</p></div></li>
+            <li><span>02</span><div><h3>Select a Metabase collection</h3><p>Give the agent access to the saved questions it needs for reporting.</p></div></li>
+            <li><span>03</span><div><h3>Choose an OpenRouter model</h3><p>Set a model ID and API key in your backend to route report requests.</p></div></li>
+          </ol>
+          <div class="config-card">
+            <div class="config-top"><span>EXAMPLE CONFIGURATION</span><button type="button" id="copy-config">Copy example</button></div>
+            <pre id="config" tabindex="0"><code>BIGQUERY_PROJECT=your-project
+BIGQUERY_DATASET=product
+METABASE_URL=https://bi.example.com
+METABASE_COLLECTION_ID=42
+METABASE_API_KEY=&lt;server-secret&gt;
+OPENROUTER_API_KEY=&lt;server-secret&gt;
+OPENROUTER_MODEL=&lt;provider/model&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer"><a class="brand" href="#main"><img src="mark.svg" alt="" width="28" height="28">bigquery<span>.live</span></a><span>AI reporting for BigQuery and Metabase.</span><a href="#studio">Back to workbench ↑</a></footer>
+<script defer src="https://vibemetrics.click/tracker.js" data-site-id="bigquery-live" data-site-key="NStfOFIKADMHWLmsfvmNYfek2Ro_KVpfpa90tbmmKJs"></script></body>
+</html>
